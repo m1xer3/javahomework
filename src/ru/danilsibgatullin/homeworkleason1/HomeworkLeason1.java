@@ -8,7 +8,8 @@ public class HomeworkLeason1 {
 
         Scanner scanner = new Scanner(System.in);
 
-        int a,b,c,d;
+        float fa,fb,fc,fd;
+        int a,b;
 
 
         // Упражнение 2
@@ -18,14 +19,14 @@ public class HomeworkLeason1 {
         //Упражнение 3
         pr("Рассчет выражения a * (b + (c / d))");
         pr("Число a");
-        a = scanner.nextInt();
+        fa = scanner.nextFloat();
         pr("Число b");
-        b = scanner.nextInt();
+        fb = scanner.nextFloat();
         pr("Число c");
-        c = scanner.nextInt();
+        fc = scanner.nextFloat();
         pr("Число d");
-        d = scanner.nextInt();
-        pr( "Выражение равно " + calcEquation(a,b,c,d));
+        fd = scanner.nextFloat();
+        pr( "Выражение равно " + calcEquation(fa,fb,fc,fd));
         pr("---------------------------------------------------------");
 
         //Упражнение 4
@@ -102,7 +103,7 @@ public class HomeworkLeason1 {
     }
 
     //Упражнение 3
-    static int calcEquation(int a,int b,int c,int d){
+    static float calcEquation(float a,float b,float c,float d){
         return a * (b + (c / d));
     }
 
