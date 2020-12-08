@@ -33,8 +33,8 @@ public class HomeWorkLeason2 {
         System.out.println("------------------------------"); //визуальное разделение упражнение в консоле
 
         //Упражнение 7
-        int[] arr7 = {1, 2, 3, 4, 5, 6,7,8,9};
-        int n = -10;
+        int[] arr7 = {1, 2, 3,4,5,6,7,8};
+        int n = 4;
         pushArrayEllementsToN(arr7,n);
 
 
@@ -179,22 +179,20 @@ public class HomeWorkLeason2 {
                return;
         }
 
+        int countMultipleN= 1;
+        int adres;
         //Если смещение n положительное
         if (n>0) {
-            int j = 1;
             buffUpdate = arr[0];
-            int adres;
             //Если число смещений не кратно длинне массива
             if (arr.length%n!=0) {
-                 adres=n*j;
-                 while (j <= arr.length) {
-
+                 adres=n*countMultipleN;
+                 while (countMultipleN <= arr.length) {
                     buffSave = arr[adres];
                     arr[adres] = buffUpdate;
                     buffUpdate = buffSave;
-                    j++;
-                    adres =(n * j);
-
+                    countMultipleN++;
+                    adres =(n * countMultipleN);
 
                     if (adres > arr.length - 1) {
                         adres %= arr.length;
@@ -205,15 +203,15 @@ public class HomeWorkLeason2 {
             После одной итерации будем принудильно смещать на единицу вперед что бы не получилось зацикливание
              */
             else{
-                int i=0; //смещение
-                adres = n * j;
+                int i=0; //интерации будем начинать с первого элемента и после прохождения полного круга увеличивать переменную для избежания зацикливания
+                adres = n * countMultipleN;
                 buffUpdate = arr[0];
                 while(i<n) {
                     buffSave = arr[adres];
                     arr[adres]=buffUpdate;
                     buffUpdate=buffSave;
-                    j++;
-                    adres =i+(n*j);
+                    countMultipleN++;
+                    adres =i+(n*countMultipleN);
 
                     if (adres > arr.length - 1) {
                        adres %=arr.length;
@@ -222,44 +220,38 @@ public class HomeWorkLeason2 {
                        adres = i;
                        buffUpdate=arr[adres];
                        adres = adres+n;
-                       j=1;
+                       countMultipleN=1;
                     }
                 }
             }
         }
         //Если смещение n отрицательно
         else{
-            //Если число смещений не кратно длинне массива
-            int adres;
-            int j = 1;
             buffUpdate = arr[arr.length - 1];
-            adres = (arr.length - 1) + (n * j);
-
+            adres = (arr.length - 1) + (n * countMultipleN);
+            //Если число смещений не кратно длинне массива
             if (arr.length%n!=0) {
-                while (j <= arr.length) {
+                while (countMultipleN <= arr.length) {
                     buffSave = arr[adres];
                     arr[adres] = buffUpdate;
                     buffUpdate = buffSave;
-                    j++;
-                    adres = (arr.length - 1) + (n * j);
+                    countMultipleN++;
+                    adres = (arr.length - 1) + (n * countMultipleN);
+                    adres = adres % arr.length;
 
-                    //?? попробовать сократить
-                    if ((0 - adres) > (arr.length - 1)) {
-                        adres = adres % arr.length;
-                    }
                     if (adres < 0) {
                         adres = arr.length + adres;
                     }
                 }
             }
             else{
-                int i=arr.length - 1; //смещение
+                int i=arr.length - 1; //интерации будем начинать с последнего элемента и после прохождения полного круга уменьшать на 1 переменную для избежания зацикливания
                 while((arr.length - 1 - i)<(0-n)) {
                     buffSave = arr[adres];
                     arr[adres]=buffUpdate;
                     buffUpdate=buffSave;
-                    j++;
-                    adres =i+(n*j);
+                    countMultipleN++;
+                    adres =i+(n*countMultipleN);
 
                     if (adres<0) {
                         adres =arr.length+(adres%arr.length);
@@ -268,7 +260,7 @@ public class HomeWorkLeason2 {
                         adres = i;
                         buffUpdate=arr[adres];
                         adres = adres+n;
-                        j=1;
+                        countMultipleN=1;
                     }
                 }
             }
