@@ -118,9 +118,14 @@ public class TicTacToe {
 
     private static boolean isCollateralDiagonal(char symbol) {
         int count =0;
+        int dangerCount = 0;
         for(int index = 0; index<SIZE;index++){
             if(map[index][(SIZE-1)-index]== symbol){
                 count++;
+                dangerCount++;
+                if(dangerCount==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isCollateralDiagonal");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -134,9 +139,14 @@ public class TicTacToe {
 
     private static boolean isMainDiagonal(char symbol) {
         int count =0;
+        int dangerCount = 0;
         for(int index = 0; index<SIZE;index++){
             if(map[index][index] == symbol){
                 count++;
+                dangerCount++;
+                if(dangerCount==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isMainDiagonal");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -207,6 +217,7 @@ public class TicTacToe {
         return true;
     }
 
+    //Реализация хода человека
     private static void humanTurn() {
         int rowIndex =-1;
         int colIndex =-1;
@@ -234,6 +245,8 @@ public class TicTacToe {
         map[rowIndex][colIndex] = DOT_X;
     }
 
+
+    //Реализация хода компьютера при условии что не была выполнена блокировка предвыйграшной ситуации человека
     private static void computerTurn() {
         if(isComputerTurn) {
             int rowIndex = -1;
@@ -247,23 +260,22 @@ public class TicTacToe {
         }
     }
 
+    //методы блокировки хода человека при достижении предвыйграшной ситуации
     private static void blockHumanTurn(int index,String whereDanger){
         if(isComputerTurn){
-
             switch (whereDanger){
                 case "isWinByColumns" : blockIsWinByColumns(index); break;
                 case "isWinByRows" : blockIsWinByRows(index); break;
+                case "isMainDiagonal" : blockIsMainDiagonal(); break;
+                case "isCollateralDiagonal" : blockIsCollateralDiagonal(); break;
                 default: break;
             }
-
-
         }
-
     }
 
     private static void blockIsWinByColumns(int colIndex){
         for (int rowIndex = 0; rowIndex<SIZE;rowIndex++){
-            if(map[rowIndex][colIndex] == DOT_EMPTY&&rowIndex!=0&& rowIndex!=SIZE-1){
+            if(map[rowIndex][colIndex] == DOT_EMPTY&&(rowIndex!=0|| rowIndex!=SIZE-1)){
                 map[rowIndex][colIndex] = DOT_O;
                 isComputerTurn =false;
                 return;
@@ -276,8 +288,34 @@ public class TicTacToe {
 
     private static void blockIsWinByRows(int rowIndex){
         for (int colIndex = 0; colIndex<SIZE;colIndex++){
-            if(map[rowIndex][colIndex] == DOT_EMPTY&&colIndex!=0&&colIndex!=SIZE-1){
+            if(map[rowIndex][colIndex] == DOT_EMPTY&&(colIndex!=0||colIndex!=SIZE-1)){
                 map[rowIndex][colIndex] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+
+    private static void blockIsMainDiagonal(){
+        for(int index = 0; index<SIZE;index++){
+            if(map[index][index]==DOT_EMPTY&&(index!=0||index!=SIZE-1)){
+                map[index][index] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+
+    private static void blockIsCollateralDiagonal(){
+        for(int index = 0; index<SIZE;index++){
+            if(map[index][(SIZE-1)-index]==DOT_EMPTY&&(index!=0||index!=SIZE-1)){
+                map[index][(SIZE-1)-index] = DOT_O;
                 isComputerTurn =false;
                 return;
             }
