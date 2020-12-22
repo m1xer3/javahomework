@@ -12,6 +12,7 @@ public class TicTacToe {
     private static final char DOT_X = 'X';
     private static final char DOT_O = 'O';
     private static final int SEQUENCE_LENGHT =4;
+    private static boolean isComputerTurn =true;
 
     public static final Scanner SCANNER = new Scanner(System.in);
 
@@ -31,6 +32,7 @@ public class TicTacToe {
             if(isGameEnd(DOT_O)){
                 break;
             }
+            isComputerTurn =true;
         }
 
 
@@ -61,25 +63,56 @@ public class TicTacToe {
         if (isMainDiagonal(symbol)) return true;
         if (isCollateralDiagonal(symbol)) return true;
 
-        if (isSubMainDiagonal(symbol)) return true;
+        if(SEQUENCE_LENGHT<SIZE) {
+            if (isSubMainDiagonal(symbol)) return true;
+            if (isSubCollateralDiagonal(symbol)) return true;
+        }
 
 
         return false;
     }
 
-    private static boolean isSubMainDiagonal(char symbol) {
+    private static boolean isSubCollateralDiagonal(char symbol) {
         int count = 0;
-        for(int index = 0 ; index<SIZE;index++ ){
-
-            if(map[index][index+1] == symbol){
+        for(int index = 0 ; index<SIZE-1;index++ ){
+            if(map[index][(SIZE-2)-index] == symbol){
                 count++;
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
             }
         }
+        count = 0;
+        for(int index = 1; index<SIZE;index++ ){
+            if(map[index][SIZE-index] == symbol){
+                count++;
+                if(count>=SEQUENCE_LENGHT){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-
+    private static boolean isSubMainDiagonal(char symbol) {
+        int count = 0;
+        for(int index = 1 ; index<SIZE;index++ ){
+            if(map[index-1][index] == symbol){
+                count++;
+                if(count>=SEQUENCE_LENGHT){
+                    return true;
+                }
+            }
+        }
+        count =0;
+        for(int index = 1; index< SIZE; index++){
+            if(map[index][index-1]==symbol){
+                count++;
+                if(count>=SEQUENCE_LENGHT){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -118,9 +151,14 @@ public class TicTacToe {
     private static boolean isWinByColumns(char symbol) {
         for(int colIndex = 0; colIndex<SIZE;colIndex++){
             int count =0;
+            int dangerCount=0;
             for(int rowIndex = 0; rowIndex<SIZE;rowIndex++){
                 if(map[rowIndex][colIndex] == symbol){
                     count++;
+                    dangerCount++;
+                    if(dangerCount==SEQUENCE_LENGHT-1){
+                        blockHumanTurn(colIndex,"isWinByColumns");
+                    }
                     if(count>=SEQUENCE_LENGHT){
                         return true;
                     }
@@ -136,9 +174,14 @@ public class TicTacToe {
     private static boolean isWinByRows(char symbol) {
         for(int rowIndex = 0; rowIndex<SIZE;rowIndex++){
             int count =0;
+            int dangerCount=0;
             for (int colIndex=0;colIndex<SIZE;colIndex++){
                 if(map[rowIndex][colIndex] == symbol){
                     count++;
+                    dangerCount++;
+                    if(dangerCount==SEQUENCE_LENGHT-1){
+                        blockHumanTurn(rowIndex,"isWinByRows");
+                    }
                     if(count>=SEQUENCE_LENGHT){
                         return true;
                     }
@@ -192,20 +235,61 @@ public class TicTacToe {
     }
 
     private static void computerTurn() {
-        int rowIndex =-1;
-        int colIndex =-1;
-        Random rand =new Random();
-        do {
-            rowIndex = rand.nextInt(SIZE);
-            colIndex = rand.nextInt(SIZE);
-        } while (!isCellValid(rowIndex,colIndex,DOT_O));
+        if(isComputerTurn) {
+            int rowIndex = -1;
+            int colIndex = -1;
+            Random rand = new Random();
+            do {
+                rowIndex = rand.nextInt(SIZE);
+                colIndex = rand.nextInt(SIZE);
+            } while (!isCellValid(rowIndex, colIndex, DOT_O));
+            map[rowIndex][colIndex] = DOT_O;
+        }
+    }
 
-        map[rowIndex][colIndex] = DOT_O;
+    private static void blockHumanTurn(int index,String whereDanger){
+        if(isComputerTurn){
+
+            switch (whereDanger){
+                case "isWinByColumns" : blockIsWinByColumns(index); break;
+                case "isWinByRows" : blockIsWinByRows(index); break;
+                default: break;
+            }
+
+
+        }
+
+    }
+
+    private static void blockIsWinByColumns(int colIndex){
+        for (int rowIndex = 0; rowIndex<SIZE;rowIndex++){
+            if(map[rowIndex][colIndex] == DOT_EMPTY&&rowIndex!=0&& rowIndex!=SIZE-1){
+                map[rowIndex][colIndex] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+
+    private static void blockIsWinByRows(int rowIndex){
+        for (int colIndex = 0; colIndex<SIZE;colIndex++){
+            if(map[rowIndex][colIndex] == DOT_EMPTY&&colIndex!=0&&colIndex!=SIZE-1){
+                map[rowIndex][colIndex] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
     }
 
 
     private static boolean isCellValid(int rowIndex, int colIndex,char symbol){
-        if((rowIndex < 0||rowIndex>=SIZE) && (colIndex < 0||colIndex >=SIZE)){
+        if((rowIndex < 0||rowIndex>=SIZE) || (colIndex < 0||colIndex >=SIZE)){
             System.out.println("Индексы строки и колонки должны быть в диапозоне от 0 до "+SIZE);
             return false;
         }
