@@ -77,6 +77,9 @@ public class TicTacToe {
         for(int index = 0 ; index<SIZE-1;index++ ){
             if(map[index][(SIZE-2)-index] == symbol){
                 count++;
+                if(count==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isSubCollateralDiagonalUpper");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -86,6 +89,9 @@ public class TicTacToe {
         for(int index = 1; index<SIZE;index++ ){
             if(map[index][SIZE-index] == symbol){
                 count++;
+                if(count==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isSubCollateralDiagonalLower");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -99,6 +105,9 @@ public class TicTacToe {
         for(int index = 1 ; index<SIZE;index++ ){
             if(map[index-1][index] == symbol){
                 count++;
+                if(count==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isSubMainDiagonalUpper");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -108,6 +117,9 @@ public class TicTacToe {
         for(int index = 1; index< SIZE; index++){
             if(map[index][index-1]==symbol){
                 count++;
+                if(count==SEQUENCE_LENGHT-1){
+                    blockHumanTurn(index,"isSubMainDiagonalLower");
+                }
                 if(count>=SEQUENCE_LENGHT){
                     return true;
                 }
@@ -268,17 +280,82 @@ public class TicTacToe {
                 case "isWinByRows" : blockIsWinByRows(index); break;
                 case "isMainDiagonal" : blockIsMainDiagonal(); break;
                 case "isCollateralDiagonal" : blockIsCollateralDiagonal(); break;
+                case "isSubMainDiagonalUpper" : blockIsSubMainDiagonalUpper(); break;
+                case "isSubMainDiagonalLower" : blockIsSubMainDiagonalLower(); break;
+                case "isSubCollateralDiagonalUpper" : blockIsSubCollateralDiagonalUpper(); break;
+                case "isSubCollateralDiagonalLower" : blockIsSubCollateralDiagonalLower(); break;
                 default: break;
+            }
+        }
+    }
+    private static void blockIsSubCollateralDiagonalLower(){
+        for(int index = 1 ; index<SIZE;index++ ){
+            if(map[index][SIZE-index] == DOT_EMPTY&&(index!=0|| SIZE-index!=SIZE-1)){
+                map[index][SIZE-index] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+    private static void blockIsSubCollateralDiagonalUpper(){
+        for(int index = 0 ; index<SIZE-1;index++ ){
+            if(map[index][(SIZE-2)-index] == DOT_EMPTY&&(index!=0|| ((SIZE-2)-index)!=SIZE-1)){
+                map[index][(SIZE-2)-index] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+
+    private static void blockIsSubMainDiagonalLower(){
+        for(int index = 1 ; index<SIZE;index++ ){
+            if(map[index][index-1] == DOT_EMPTY&&(index!=0|| index-1!=SIZE-1)){
+                map[index][index-1] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
+            }
+        }
+    }
+    private static void blockIsSubMainDiagonalUpper(){
+        for(int index = 1 ; index<SIZE;index++ ){
+            if(map[index-1][index] == DOT_EMPTY&&(index-1!=0|| index!=SIZE-1)){
+                map[index-1][index] = DOT_O;
+                isComputerTurn =false;
+                return;
+            }
+            else{
+                isComputerTurn=true;
             }
         }
     }
 
     private static void blockIsWinByColumns(int colIndex){
-        for (int rowIndex = 0; rowIndex<SIZE;rowIndex++){
-            if(map[rowIndex][colIndex] == DOT_EMPTY&&(rowIndex!=0|| rowIndex!=SIZE-1)){
-                map[rowIndex][colIndex] = DOT_O;
-                isComputerTurn =false;
-                return;
+        int count=0;
+        for (int rowIndex = 0; rowIndex<SIZE-1;rowIndex++){
+            if(map[rowIndex][colIndex] == DOT_X){
+                count++;
+            }
+            if(count>=SEQUENCE_LENGHT-2){
+                if (rowIndex-1>=0&&map[rowIndex-1][colIndex] == DOT_EMPTY) {
+                    map[rowIndex-1][colIndex] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                } else if (rowIndex+1<SIZE&&map[rowIndex+1][colIndex] == DOT_EMPTY) {
+                    map[rowIndex+1][colIndex] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                }else if (rowIndex-2>=0&&rowIndex+1==SIZE-1){
+                    map[rowIndex-2][colIndex] = DOT_O;
+                }
             }
             else{
                 isComputerTurn=true;
@@ -287,11 +364,23 @@ public class TicTacToe {
     }
 
     private static void blockIsWinByRows(int rowIndex){
-        for (int colIndex = 0; colIndex<SIZE;colIndex++){
-            if(map[rowIndex][colIndex] == DOT_EMPTY&&(colIndex!=0||colIndex!=SIZE-1)){
-                map[rowIndex][colIndex] = DOT_O;
-                isComputerTurn =false;
-                return;
+        int count=0;
+        for (int colIndex = 0; colIndex<SIZE-1;colIndex++){
+            if(map[rowIndex][colIndex] == DOT_X){
+                count++;
+            }
+            if(count>=SEQUENCE_LENGHT-2){
+                if (colIndex-1>=0&&map[rowIndex][colIndex-1] == DOT_EMPTY) {
+                    map[rowIndex][colIndex-1] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                } else if (colIndex+1<SIZE&&map[rowIndex][colIndex+1] == DOT_EMPTY) {
+                    map[rowIndex][colIndex+1] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                }else if (colIndex-2>=0&&colIndex+1==SIZE-1){
+                    map[rowIndex][colIndex-2] = DOT_O;
+                }
             }
             else{
                 isComputerTurn=true;
@@ -300,11 +389,23 @@ public class TicTacToe {
     }
 
     private static void blockIsMainDiagonal(){
-        for(int index = 0; index<SIZE;index++){
-            if(map[index][index]==DOT_EMPTY&&(index!=0||index!=SIZE-1)){
-                map[index][index] = DOT_O;
-                isComputerTurn =false;
-                return;
+        int count=0;
+        for(int index = 0; index<SIZE-1;index++){
+            if(map[index][index] == DOT_X){
+                count++;
+            }
+            if(count>=SEQUENCE_LENGHT-2){
+                if (index-1>=0&&map[index-1][index-1] == DOT_EMPTY) {
+                    map[index-1][index-1] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                } else if (index+1<SIZE&&map[index+1][index+1] == DOT_EMPTY) {
+                    map[index+1][index+1] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                }else if (index-2>=0&&index+1==SIZE-1){
+                    map[index-2][index-2] = DOT_O;
+                }
             }
             else{
                 isComputerTurn=true;
@@ -313,17 +414,31 @@ public class TicTacToe {
     }
 
     private static void blockIsCollateralDiagonal(){
-        for(int index = 0; index<SIZE;index++){
-            if(map[index][(SIZE-1)-index]==DOT_EMPTY&&(index!=0||index!=SIZE-1)){
-                map[index][(SIZE-1)-index] = DOT_O;
-                isComputerTurn =false;
-                return;
+        int count=0;
+        for(int index = 0; index<SIZE-1;index++){
+            if(map[index][(SIZE-1)-index] == DOT_X){
+                count++;
+            }
+            if(count>=SEQUENCE_LENGHT-2){
+                if (index-1>=0&&map[index-1][(SIZE-1)-(index-1)] == DOT_EMPTY) {
+                    map[index-1][(SIZE-1)-(index-1)] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                } else if (map[index+1][(SIZE-1)-(index+1)] == DOT_EMPTY) {
+                    map[index+1][(SIZE-1)-(index+1)] = DOT_O;
+                    isComputerTurn =false;
+                    return;
+                }else if (index-2>=0&&index+1==SIZE-1){
+                    map[index-2][((SIZE-1)-(index-2))] = DOT_O;
+                }
             }
             else{
                 isComputerTurn=true;
             }
         }
     }
+
+
 
 
     private static boolean isCellValid(int rowIndex, int colIndex,char symbol){
