@@ -353,7 +353,7 @@ public class TicTacToe {
                     map[rowIndex+1][colIndex] = DOT_O;
                     isComputerTurn =false;
                     return;
-                }else if (rowIndex-2>=0&&rowIndex+1==SIZE-1){
+                }else if (rowIndex-2>=0&&rowIndex+1==SIZE-1&&map[rowIndex-2][colIndex]==DOT_EMPTY){
                     map[rowIndex-2][colIndex] = DOT_O;
                 }
             }
@@ -378,7 +378,7 @@ public class TicTacToe {
                     map[rowIndex][colIndex+1] = DOT_O;
                     isComputerTurn =false;
                     return;
-                }else if (colIndex-2>=0&&colIndex+1==SIZE-1){
+                }else if (colIndex-2>=0&&colIndex+1==SIZE-1&&map[rowIndex][colIndex-2] == DOT_EMPTY){
                     map[rowIndex][colIndex-2] = DOT_O;
                 }
             }
@@ -403,7 +403,7 @@ public class TicTacToe {
                     map[index+1][index+1] = DOT_O;
                     isComputerTurn =false;
                     return;
-                }else if (index-2>=0&&index+1==SIZE-1){
+                }else if (index-2>=0&&index+1==SIZE-1&&map[index-2][index-2] == DOT_EMPTY){
                     map[index-2][index-2] = DOT_O;
                 }
             }
@@ -428,7 +428,7 @@ public class TicTacToe {
                     map[index+1][(SIZE-1)-(index+1)] = DOT_O;
                     isComputerTurn =false;
                     return;
-                }else if (index-2>=0&&index+1==SIZE-1){
+                }else if (index-2>=0&&index+1==SIZE-1&&map[index-2][((SIZE-1)-(index-2))]== DOT_EMPTY){
                     map[index-2][((SIZE-1)-(index-2))] = DOT_O;
                 }
             }
