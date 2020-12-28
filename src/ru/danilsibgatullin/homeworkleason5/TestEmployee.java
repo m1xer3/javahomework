@@ -5,6 +5,8 @@ import java.util.Random;
 
 public class TestEmployee {
 
+    private static final int MAX_AGE = 40;
+
 
     public static void main(String[] args) {
 
@@ -19,7 +21,7 @@ public class TestEmployee {
         employees.add(new Employee("Михайлов Михаил Михайлович","Директор","fifth@noemail.net","+6 666 666 43 43",Employee.MROT+rand.nextInt(randomSalary),Employee.PERMISIBLE_AGE+rand.nextInt(randomAge)));
         employees.add(new Employee());
         for (Employee employee : employees) {
-            if(employee.getAge()>40){
+            if(employee.getAge()>MAX_AGE){
                 employee.employeeInfo();
             }
         }
