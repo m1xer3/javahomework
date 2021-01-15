@@ -35,7 +35,7 @@ public class Plate {
 
     // метод размещения еды в тарелке
     public void placeFoodOnPlate(Food food){
-        if(this.isEmpty()) {
+        if(this.filledCapacity != this.capacity) {
             if (this.emptyCapacity >= food.getVolume()) {
                 this.emptyCapacity -= food.getVolume(); // уменьшаем объем пустого места в тарелке
                 this.filledCapacity = this.capacity-this.emptyCapacity; // обновляем параметр доступной для поедания пищи
@@ -48,7 +48,7 @@ public class Plate {
                 food.decreaseAvailableFood(this.getCapacity());
             }
         }
-        else System.out.printf("The plate is not empty. Place the dish on a new plate.");
+        else System.out.printf("The plate is full. Place the dish on a new plate.");
     }
 
     // Метод изменения объема еды в тарелке

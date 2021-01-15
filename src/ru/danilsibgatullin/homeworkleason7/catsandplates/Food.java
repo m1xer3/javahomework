@@ -6,7 +6,6 @@ public class Food {
 
     private final static String DEFAULT_DISHNAME = "Testy Food";
     private final static int DEFAULT_VOLUME = 10;
-
     private String dishName;
     private int volume;
 
@@ -30,7 +29,7 @@ public class Food {
         this.dishName=dishName;
         if(volume>=0)this.volume=volume;
         else {
-            System.out.println("Объем еды не может быть отрицательным, прсивоено значение " + DEFAULT_VOLUME);
+            System.out.println("The volume of food cannot be negative, the value set " + DEFAULT_VOLUME);
             this.volume=DEFAULT_VOLUME;
         }
     }
@@ -41,6 +40,13 @@ public class Food {
 
     public void decreaseAvailableFood(int decreaseValue){
         this.setVolume(this.getVolume()-decreaseValue);
+        if(this.isDone()){
+            System.out.printf("The %s is over",this.getDishName());
+        }
+    }
+
+    public boolean isDone(){
+        return this.getVolume() == 0;
     }
 
     public void info(){

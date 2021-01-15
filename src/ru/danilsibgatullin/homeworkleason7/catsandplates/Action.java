@@ -11,10 +11,17 @@ public class Action {
         meat.info();
         woodPlate.info();
         cat1.info();
+        System.out.println();
+
 
         //Положили еду в тарелку
         woodPlate.placeFoodOnPlate(meat);
         woodPlate.info();
+        woodPlate.placeFoodOnPlate(meat);
+        woodPlate.info();
+
+
+        System.out.println(cat1.isHungry()); // проверка голоден ли кот
 
         //Кот поел
         cat1.animalEat(woodPlate);
