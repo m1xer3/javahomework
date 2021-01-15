@@ -1,6 +1,4 @@
-package ru.danilsibgatullin.homeworkleason7.catsandplates;
-
-import java.util.Objects;
+package ru.danilsibgatullin.homeworkleason7.animalsandplates;
 
 public class Food {
 
@@ -40,17 +38,17 @@ public class Food {
 
     public void decreaseAvailableFood(int decreaseValue){
         this.setVolume(this.getVolume()-decreaseValue);
-        if(this.isDone()){
-            System.out.printf("The %s is over",this.getDishName());
-        }
     }
 
-    public boolean isDone(){
+    public boolean isEnded(){
         return this.getVolume() == 0;
     }
 
     public void info(){
-        System.out.println(this);
+        if(isEnded()){
+            System.out.printf("Dish %s is ended.\n",this.getDishName());
+        }
+        else System.out.printf("Available value of %s is %d \n",this.getDishName(),this.getVolume());
     }
 
     @Override

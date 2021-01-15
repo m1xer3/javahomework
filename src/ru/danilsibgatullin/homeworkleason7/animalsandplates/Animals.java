@@ -1,4 +1,4 @@
-package ru.danilsibgatullin.homeworkleason7.catsandplates;
+package ru.danilsibgatullin.homeworkleason7.animalsandplates;
 
 public abstract class Animals {
 
@@ -43,21 +43,25 @@ public abstract class Animals {
         return this.appetite != 0;
     }
 
+    public void printAnimalIsHungry() {
+        if (this.isHungry()) {
+            System.out.printf("%s %s is hungry , hungry value is %d \n",this.getAnimalKind(),this.getName(),this.getAppetite());
+        } else {
+            System.out.printf("%s %s is not hungry \n",this.getAnimalKind(),this.getName());
+        }
+    }
 
     public  void animalEat (Plate plate){
         if(this.isHungry()){
             if(this.getAppetite()<=plate.getFilledCapacity()){
                 plate.availableCapacityChange(this.getAppetite());
                 this.setAppetite(0);
-                System.out.printf("The %s named %s is full \n",this.getAnimalKind(),this.getName());
             }
             else{
                 this.setAppetite(this.getAppetite()-plate.getFilledCapacity());
                 plate.availableCapacityChange(); //опусташаем тарелку
-                System.out.printf("The %s named %s is not full. Hunger indicator is %d .Bring some more food \n",this.getAnimalKind(),this.getName(),this.getAppetite());
             }
         }
-        else System.out.printf("%s %s is not hungry\n",this.getAnimalKind(),this.getName());
     }
 
 
