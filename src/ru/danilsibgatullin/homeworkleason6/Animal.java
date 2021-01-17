@@ -2,7 +2,12 @@ package ru.danilsibgatullin.homeworkleason6;
 
 import java.util.Objects;
 
-public abstract class Animals {
+public abstract class Animal {
+
+    protected String name;
+    protected int maxRunDistance;
+    protected int maxJumpDistance;
+    protected int maxSwimingDistance;
 
     protected static int animalsCount=0; //счетчик для созданных объектов
 
@@ -34,16 +39,11 @@ public abstract class Animals {
         this.maxSwimingDistance = maxSwimingDistance;
     }
 
-    protected String name;
-    protected int maxRunDistance;
-    protected int maxJumpDistance;
-    protected int maxSwimingDistance;
-
     public String getName() {
         return name;
     }
 
-    public Animals(String name, int maxRunDistance, int maxJumpDistance, int maxSwimingDistance){
+    public Animal(String name, int maxRunDistance, int maxJumpDistance, int maxSwimingDistance){
         this.name=name;
         this.maxRunDistance=maxRunDistance;
         this.maxJumpDistance=maxJumpDistance;
@@ -51,25 +51,16 @@ public abstract class Animals {
         animalsCount++;
     }
 
-    public  boolean run(int distance){
-        if(distance>0&&distance<=this.maxRunDistance){
-            return true;
-        }
-        return false;
+    public  boolean isRun(int distance){
+        return distance>0&&distance<=this.maxRunDistance;
     }
 
-    public  boolean jump(int distance){
-        if(distance>0&&distance<=this.maxJumpDistance){
-            return true;
-        }
-        return false;
+    public  boolean isJump(int distance){
+        return distance>0&&distance<=this.maxJumpDistance;
     }
 
-    public  boolean swiming(int distance){
-        if(distance>0&&distance<=this.maxSwimingDistance){
-            return true;
-        }
-        return false;
+    public  boolean isSwiming(int distance){
+       return distance>0&&distance<=this.maxSwimingDistance;
     }
 
     @Override
@@ -86,8 +77,8 @@ public abstract class Animals {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Animals animals = (Animals) o;
-        return maxRunDistance == animals.maxRunDistance && maxJumpDistance == animals.maxJumpDistance && maxSwimingDistance == animals.maxSwimingDistance && Objects.equals(name, animals.name);
+        Animal animal = (Animal) o;
+        return maxRunDistance == animal.maxRunDistance && maxJumpDistance == animal.maxJumpDistance && maxSwimingDistance == animal.maxSwimingDistance && Objects.equals(name, animal.name);
     }
 
     @Override
