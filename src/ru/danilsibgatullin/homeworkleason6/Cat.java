@@ -1,6 +1,6 @@
 package ru.danilsibgatullin.homeworkleason6;
 
-public class Cats extends Animals{
+public class Cat extends Animal {
 
     protected static int catsCount=0; //счетчик для созданных объектов
     private static int defaultCatCount = 1; //счетчик для присвоения уникальных имен при вызове конструктора по умолчанию
@@ -9,20 +9,22 @@ public class Cats extends Animals{
     * */
     private final static int IS_CATS_SWIM = 0;
 
-    public Cats(String name, int maxRunDistance, int maxJumpDistance,int maxSwimingDistance){
+    public Cat(String name, int maxRunDistance, int maxJumpDistance){
         super(name, maxRunDistance,maxJumpDistance, IS_CATS_SWIM);
         catsCount++;
     }
 
-    public Cats(String name, int maxRunDistance, int maxJumpDistance){
-        super(name, maxRunDistance,maxJumpDistance, IS_CATS_SWIM);
-        catsCount++;
-    }
-
-    public Cats(){
-        super("DefaultCat"+defaultCatCount,0,0,0);
+    public Cat(){
+        this("DefaultCat"+defaultCatCount,0,0);
         defaultCatCount++;
         catsCount++;
     }
+
+    @Override
+    public  boolean isSwiming(int distance){
+        System.out.println("Коты не умеют плавать");
+        return false;
+    }
+
 
 }
