@@ -1,6 +1,6 @@
 package ru.danilsibgatullin.homeworkleason7.animalsandplates;
 
-public abstract class Animals {
+public abstract class Animal {
 
     private String animalType; // ищник или травоядный
     private String animalKind; // вид животного
@@ -32,7 +32,7 @@ public abstract class Animals {
     }
 
 
-    public Animals (String animalType,String animalKind,String name,int appetite){
+    public Animal(String animalType, String animalKind, String name, int appetite){
         this.animalType=animalType;
         this.animalKind=animalKind;
         this.name=name;

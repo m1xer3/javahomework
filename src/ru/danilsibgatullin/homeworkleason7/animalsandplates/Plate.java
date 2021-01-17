@@ -18,7 +18,6 @@ public class Plate {
         return capacity;
     }
 
-
     public Plate(int capacity){
         if(capacity>=0) this.capacity=capacity;
         else {
